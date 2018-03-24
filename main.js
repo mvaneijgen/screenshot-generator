@@ -47,7 +47,6 @@ const sitemapUrl = argv._[0];
   for (let url of sites) {
     urls.push(url);
     console.log('extracted: ' + url);
-    console.log(urls.length);
   }
 
   startGenerating();
@@ -62,13 +61,15 @@ const sitemapUrl = argv._[0];
 //------------------------------------------------------//
 function startGenerating() {
 
-  urls = ['http://studioalloy.nl']; // ⚠️ For testing purposes only
+  // urls = ['http://studioalloy.nl']; // ⚠️ For testing purposes only
+
+  console.log('🤓  Going to genarte ' + urls.length * devices.length + 'images.');
 
   (async () => {
     let screenshotDirectory = './screenshots/';
-    // if (!fs.existsSync(screenshotDirectory)){
-    //   fs.mkdirSync(screenshotDirectory);
-    // }
+    if (!fs.existsSync(screenshotDirectory)){
+      fs.mkdirSync(screenshotDirectory);
+    }
 
     let browser = await puppeteer.launch({
       args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -91,10 +92,10 @@ function startGenerating() {
 
       await page.setUserAgent(device.userAgent)
 
-      // let deviceDirectory = screenshotDirectory;
-      // if (!fs.existsSync(deviceDirectory)){
-      //   fs.mkdirSync(deviceDirectory);
-      // }
+      let deviceDirectory = screenshotDirectory + device.deviceName + '/';
+      if (!fs.existsSync(deviceDirectory)){
+          fs.mkdirSync(deviceDirectory);
+      }
 
       for (let j = 0, len = urls.length; j < len; j++) {
 
@@ -116,7 +117,7 @@ function startGenerating() {
 
         // Load page and create full page screenshot
         await page.goto(url, {waitUntil: 'networkidle2'});
-        await page.screenshot({path: screenshotDirectory + imageName, fullPage: true});
+        await page.screenshot({path: deviceDirectory + imageName, fullPage: true});
 
       }
     }
