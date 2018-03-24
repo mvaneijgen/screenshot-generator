@@ -1,0 +1,13 @@
+{
+  "name": "alloy-screenshots",
+  "private": true,
+  "dependencies": {
+    "get-stdin": "^6.0.0",
+    "kue": "^0.11.6",
+    "minimist": "^1.2.0",
+    "puppeteer": "^1.2.0",
+    "sitemapper": "^2.1.13",
+    "superagent": "^3.6.1",
+    "tmp": "^0.0.33"
+  }
+}
